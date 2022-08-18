@@ -31,9 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeRequests()
-           /*     .antMatchers("/", "/index").permitAll()*/
+                .csrf().disable();
+                /*.authorizeRequests()
+                .antMatchers("/", "/index").permitAll()
                 .antMatchers("/user/").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
@@ -44,23 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll();*/
     }
-
-    // аутентификация inMemory
-    /*@Bean
-    @Override
-    @SuppressWarnings("deprecation")
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("user")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
-    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {

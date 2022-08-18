@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,7 +10,6 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -24,7 +22,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
+    @RequestMapping("/login")
     public String login() {
         return "users/login";
     }
@@ -68,24 +66,11 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    /*@PostMapping("/admin/user-update")
-    public String updateUser(User user, Model model) {
-        model.addAttribute("user", user);
-        userService.saveUser(user);
-        return "redirect:/admin";
-    }*/
-
     @GetMapping("/admin/user-create")
     public String createUserForm(User user, Model model) {
 
         model.addAttribute("admin", admin);
         return "users/saveUser";
-    }
-
-    @PostMapping("/admin/user-create")
-    public String createUser(User user, @RequestParam(value = "roles") List<Role> roles) {
-        userService.saveUser(user);
-        return "redirect:/admin/";
     }
 
     @PostMapping("/admin/user-delete/{id}")

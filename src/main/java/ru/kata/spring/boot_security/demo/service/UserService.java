@@ -13,7 +13,7 @@ public interface UserService {
 
     public User saveUser(User user);
 
-    public void deleteById(Long id);
+    public String deleteById(Long id);
 
     public UserDetails loadUserByUsername(String string);
 
