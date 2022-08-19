@@ -1,7 +1,10 @@
+
+
 function sendRequest(method, url, body = null) {
     const header = {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
+        "Allow": "GET, DELETE, PUT"
     }
 
     return fetch(url, {
@@ -11,55 +14,6 @@ function sendRequest(method, url, body = null) {
         body: body
     })
 }
-
-$(document).ready(() => {
-    const userTable = document.getElementById("table")
-
-    sendRequest("GET", "/api/users").then(response => {
-        return response.json()
-    }).then( response => {
-        console.log(response)
-
-        response.forEach(user => {
-            const row = userTable.insertRow()
-            const id = row.insertCell(0)
-            id.innerHTML = user.id
-
-            const name = row.insertCell(1)
-            name.innerHTML = user.name
-
-            const lastname = row.insertCell(2)
-            lastname.innerHTML = user.lastname
-
-            const age = row.insertCell(3)
-            age.innerHTML = user.age
-
-            const username = row.insertCell(4)
-            username.innerHTML = user.username
-
-            const roles = row.insertCell(5)
-            roles.innerHTML = user.rolesToString
-
-
-            const deleteModalButton = row.insertCell(6)
-            deleteModalButton.innerHTML = "<button type='button' class='btn btn-danger' data-toggle='modal'>Delete</button>"
-
-            deleteModalButton.addEventListener("click", () => {
-                $("#deleteModal").modal()
-                populateModal(user, true)
-            }, false)
-
-
-            const editModalButton = row.insertCell(7)
-            editModalButton.innerHTML = "<button type='button' class='btn btn-secondary' data-toggle='modal'>Edit</button>"
-
-            editModalButton.addEventListener("click", () => {
-                $("#editModal").modal()
-                populateModal(user, false)
-            }, false)
-        })
-    }).catch(err => console.log(err))
-})
 
 function populateModal(user, flag) {
     if (flag) {
@@ -78,10 +32,8 @@ function populateModal(user, flag) {
         id.value = user.id
         name.value = user.name
         lastname.value = user.lastname
-        username.value = user.username
         age.value = user.age
-        roles.value = user.roles
-
+        username.value = user.username
     } else {
         const id = document.getElementById("id_editModal")
 
@@ -105,6 +57,48 @@ function populateModal(user, flag) {
         password.value = user.password
         roles.value = user.roles
     }
+}
+
+function deleteUser() {
+    sendRequest("DELETE", "/api/users/" + id)
+        .then(response => console.log(response))
+        .catch(err => console.log(err))
+}
+
+function updateUser() {
+    let roles
+    const id = document.getElementById("id_editModal").value
+    if (document.getElementById("roles_editModal").value.includes("1")) {
+        roles = [
+            {
+                id: 1,
+                "name": "ROLE_ADMIN"
+            },
+            {
+                id: 2,
+                name: "ROLE_USER"
+            }
+        ]
+    } else {
+        roles = [
+            {
+                "id": 2,
+                "name": "ROLE_USER"
+            }
+        ]
+    }
+
+    sendRequest("PUT", "/api/users/" + id, JSON.stringify({
+        id: id,
+        name: document.getElementById("name_editModal").value,
+        lastname: document.getElementById("lastname_editModal").value,
+        age: document.getElementById("age_editModal").value,
+        username: document.getElementById("username_editModal").value,
+        password: document.getElementById("password_editModal").value,
+        roles: roles
+    }))
+        .then(response => response.json())
+        .catch(err => console.log(err))
 }
 
 

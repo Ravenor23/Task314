@@ -24,8 +24,8 @@ public class RESTController {
     @GetMapping("/users/{id}")
     public User getUser(@PathVariable Long id) {return userService.findById(id);}
 
-    @PutMapping("/users")
-    public User updateUser(@RequestBody User user) {return userService.updateUser(user, user.getId());}
+    @PutMapping("/users/{id}")
+    public User updateUser(@RequestBody User user, @PathVariable Long id) {return userService.saveUser(user);}
 
     @DeleteMapping("/users/{id}")
     public String deleteUser(@PathVariable Long id) {
