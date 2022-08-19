@@ -41,7 +41,8 @@ $(document).ready(() => {
 function sendRequest(method, url, body = null) {
     const header = {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
+        "Allow": "GET, DELETE, PUT"
     }
 
     return fetch(url, {

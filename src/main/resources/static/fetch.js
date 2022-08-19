@@ -1,5 +1,3 @@
-
-
 function sendRequest(method, url, body = null) {
     const header = {
         "Content-Type": "application/json",

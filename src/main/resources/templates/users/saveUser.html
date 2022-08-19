@@ -155,12 +155,12 @@
   <script src="saveUser.js"></script>
   <script>
     $(document).ready(() => {
-      document.getElementById("saveUserHeading").innerText = admin.username + ' has roles: ' + admin.rolesToString
-
-      sendRequest("GET", "/api/users" + admin.id)
+      sendRequest("GET", "/api/users/" + [[${admin.id}]])
               .then(response => response.json())
-              .catch(err => console.log(err))
-     })
+              .then( response => {
+                document.getElementById("saveUserHeading").innerText = response.username + ' has roles: ' + response.rolesToString
+              }).catch(err => console.log(err))
+    })
   </script>
 
 </body>

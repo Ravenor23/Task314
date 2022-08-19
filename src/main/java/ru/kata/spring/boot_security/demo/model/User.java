@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,6 +38,7 @@ public class User implements UserDetails {
     @ManyToMany
     @JoinTable(joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private List<Role> roles;
 
     public Long getId() {

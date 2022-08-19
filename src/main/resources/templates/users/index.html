@@ -250,7 +250,11 @@
      $(document).ready(() => {
        const userTable = document.getElementById("table")
 
-       /*document.getElementById("adminPageHeading").innerHTML = admin.username + ' has roles: ' + admin.rolesToString*/
+       sendRequest("GET", "/api/users/" + [[${admin.id}]])
+               .then(response => response.json())
+               .then( response => {
+                 document.getElementById("adminPageHeading").innerText = response.username + ' has roles: ' + response.rolesToString
+               }).catch(err => console.log(err))
 
        sendRequest("GET", "/api/users").then(response => {
          return response.json()
