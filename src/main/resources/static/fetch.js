@@ -25,7 +25,6 @@ function populateModal(user, isDeleteModal) {
 
         const username = document.getElementById("username_deleteModal")
 
-        const roles = document.getElementById("roles_deleteModal")
 
         id.value = user.id
         name.value = user.name
@@ -135,6 +134,28 @@ function updateUser() {
         .catch(err => console.log(err))
 }
 
+function fillAdminUserInformationPage(admin) {
+    const adminViewTable = document.getElementById("adminViewTable")
+    const adminPageRow = adminViewTable.insertRow()
+
+    const adminId = adminPageRow.insertCell(0)
+    adminId.innerHTML = admin.id
+
+    const adminName = adminPageRow.insertCell(1)
+    adminName.innerHTML = admin.name
+
+    const adminLastname = adminPageRow.insertCell(2)
+    adminLastname.innerHTML = admin.lastname
+
+    const adminAge = adminPageRow.insertCell(3)
+    adminAge.innerHTML = admin.age
+
+    const adminUsername = adminPageRow.insertCell(4)
+    adminUsername.innerHTML = admin.username
+
+    const adminRoles = adminPageRow.insertCell(5)
+    adminRoles.innerHTML = admin.rolesToString
+}
 
 
 

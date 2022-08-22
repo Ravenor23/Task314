@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,14 +36,6 @@ public class UserController {
         return "users/show";
     }
 
-    @GetMapping("/admin/user")
-    public String showAdminInfo(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUsername(auth.getName());
-        model.addAttribute("user", user);
-        return "users/adminShow";
-    }
-
     @GetMapping("/admin/user/{id}")
     public String showUserById(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.findById(id));
@@ -54,6 +48,13 @@ public class UserController {
         admin = userService.findByUsername(auth.getName());
 
         List<User> users = userService.findAll();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            model.addAttribute("adminJSON", objectMapper.writeValueAsString(admin));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
         model.addAttribute("users", users);
         model.addAttribute("admin", admin);
