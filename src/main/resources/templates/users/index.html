@@ -52,6 +52,8 @@
 
         <div class="nav pill-nav nav-pills nav-justified flex-column" id="pills-tab" role="tablist">
           <a id="admin-tab" class="nav-link mt-3 active flex-fill" role="tab" href="/admin" aria-selected="true">Admin</a>
+
+          <!--adminShow для того, чтобы админ мог вернуться на главную страницу-->
           <a id="user-tab" class="nav-link flex-fill" role="tab" href="/admin/user" aria-selected="false">User</a>
         </div>
 
@@ -142,8 +144,8 @@
                               <div class="form-group text-center ">
                                 <label class="font-weight-bold custom-font" for="roles_deleteModal">Roles</label>
                                 <select class="custom-select" id="roles_deleteModal" size="2" multiple>
-                                  <option id="adminOption" value="ADMIN" disabled hidden>Admin</option>
-                                  <option value="USER">User</option>
+                                  <option id="adminOption" value="ADMIN" disabled>Admin</option>
+                                  <option value="USER" disabled>User</option>
                                 </select>
                               </div>
                               <div class="d-flex justify-content-end">
@@ -328,7 +330,6 @@
          })
        }
 
-
        const userTable = document.getElementById("table")
        sendRequest("GET", "/api/users/" + [[${admin.id}]])
                .then(response => response.json())
@@ -366,9 +367,17 @@
            deleteModalButton.innerHTML = "<button type='button' class='btn btn-danger' data-toggle='modal'>Delete</button>"
 
            deleteModalButton.addEventListener("click", () => {
-             $("#adminOption").hidden
              $("#deleteModal").modal()
              populateModal(user, true)
+             console.log(user.rolesToString)
+
+             if (!(user.rolesToString.includes("ADMIN"))) {
+               const adminOption = document.getElementById("adminOption")
+               adminOption.style.display = "none"
+             } else {
+               adminOption.style.display = "block"
+             }
+
            }, false)
 
 

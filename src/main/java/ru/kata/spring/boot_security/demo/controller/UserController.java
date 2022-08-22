@@ -60,11 +60,4 @@ public class UserController {
 
         return "users/index";
     }
-
-    @GetMapping("/admin/user-create")
-    public String createUserForm(Model model) {
-        model.addAttribute("admin", admin);
-        return "users/saveUser";
-    }
-
 }
