@@ -152,14 +152,54 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script src="saveUser.js"></script>
-  <script>
+  <script type="module">
+    import {sendRequest} from "./fetch.js"
     $(document).ready(() => {
       sendRequest("GET", "/api/users/" + [[${admin.id}]])
               .then(response => response.json())
               .then( response => {
                 document.getElementById("saveUserHeading").innerText = response.username + ' has roles: ' + response.rolesToString
               }).catch(err => console.log(err))
+
+      $(document).ready(() => {
+        const createUserBtn = document.getElementById("createUserButton")
+
+        createUserBtn.addEventListener("click", () => {
+          let roles
+          if (document.getElementById("roles").value.includes("1")) {
+            roles = [
+              {
+                id: 1,
+                "name": "ROLE_ADMIN"
+              },
+              {
+                id: 2,
+                name: "ROLE_USER"
+              }
+            ]
+          } else {
+            roles = [
+              {
+                "id": 2,
+                "name": "ROLE_USER"
+              }
+            ]
+          }
+
+
+          sendRequest("POST", "/api/users", JSON.stringify({
+            name: document.getElementById("name").value,
+            lastname: document.getElementById("lastname").value,
+            age: document.getElementById("age").value,
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value,
+            roles: roles
+
+          })).then(response => {
+            return response.json()
+          }).catch(err => console.log(err))
+        })
+      })
     })
   </script>
 

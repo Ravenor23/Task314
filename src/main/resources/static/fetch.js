@@ -99,6 +99,9 @@ function updateUser() {
         .catch(err => console.log(err))
 }
 
+export {sendRequest, populateModal, updateUser, deleteUser}
+
+
 
 
 
