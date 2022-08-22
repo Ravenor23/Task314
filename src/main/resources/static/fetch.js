@@ -13,8 +13,8 @@ function sendRequest(method, url, body = null) {
     })
 }
 
-function populateModal(user, flag) {
-    if (flag) {
+function populateModal(user, isDeleteModal) {
+    if (isDeleteModal) {
         const id = document.getElementById("id_deleteModal")
 
         const name = document.getElementById("name_deleteModal")
@@ -57,8 +57,44 @@ function populateModal(user, flag) {
     }
 }
 
+function saveUser() {
+    let roles
+    if (document.getElementById("roles").value.includes("1")) {
+        roles = [
+            {
+                id: 1,
+                "name": "ROLE_ADMIN"
+            },
+            {
+                id: 2,
+                name: "ROLE_USER"
+            }
+        ]
+    } else {
+        roles = [
+            {
+                "id": 2,
+                "name": "ROLE_USER"
+            }
+        ]
+    }
+
+
+    sendRequest("POST", "/api/users", JSON.stringify({
+        name: document.getElementById("name").value,
+        lastname: document.getElementById("lastname").value,
+        age: document.getElementById("age").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+        roles: roles
+
+    })).then(response => {
+        return response.json()
+    }).catch(err => console.log(err))
+}
+
 function deleteUser() {
-    sendRequest("DELETE", "/api/users/" + id)
+    sendRequest("DELETE", "/api/users/" + document.getElementById("id_deleteModal").value)
         .then(response => console.log(response))
         .catch(err => console.log(err))
 }
@@ -98,9 +134,6 @@ function updateUser() {
         .then(response => response.json())
         .catch(err => console.log(err))
 }
-
-export {sendRequest, populateModal, updateUser, deleteUser}
-
 
 
 

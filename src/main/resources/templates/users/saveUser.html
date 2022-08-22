@@ -77,71 +77,7 @@
           </ul>
         </div>
 
-         <!--Main form-->
-        <div class="container-fluid bg-light border">
-          <div class="row">
-            <div class="col">
-              <h2 class="my-3 pl-4">Add new user</h2>
-            </div>
-          </div>
-          <div class="container-fluid bg-white border d-flex align-items-center text-center justify-content-center">
-            <div class="row">
-              <div class="col-md-12">
-                <form>
-                  <div class="form-group col-md-12">
-                    <div class="p-2 bd-highlight">
-                      <label class="font-weight-bold custom-font mt-2" for="name">Enter name: </label>
-                      <input type="text" class="form-control" id="name"/>
-                    </div>
-                  </div>
-                      
-                  <div class="form-group col-md-12">
-                    <div class="p-2 bd-highlight">
-                      <label class="font-weight-bold custom-font" for="lastname">Enter lastname: </label>
-                      <input type="text" class="form-control" id="lastname"/>
-                    </div>
-                  </div>
-  
-                  <div class="form-group col-md-12">
-                    <div class="p-2 bd-highlight">
-                      <label class="font-weight-bold custom-font" for="age">Enter age: </label>
-                      <input type="number" class="form-control" id="age"/>
-                    </div>
-                  </div>
-  
-                  <div class="form-group col-md-12">
-                    <div class="p-2 bd-highlight"></div>
-                    <label class="font-weight-bold custom-font" for="username">Enter username: </label>
-                    <input type="text" class="form-control" id="username"/>
-                  </div>
 
-                  <div class="form-group col-md-12">
-                    <div class="p-2 bd-highlight"></div>
-                    <label class="font-weight-bold custom-font" for="password">Enter password: </label>
-                    <input type="text" class="form-control" id="password"/>
-                  </div>
-
-                  <div class="form-group col-md-12">
-                    <div class="p-2 bd-highlight"></div>
-                      <label class="font-weight-bold custom-font" for="roles">Choose roles: </label>
-                      <select class="custom-select" id="roles" multiple>
-                        <option value="1">Admin</option>
-                        <option value="2">User</option>
-                      </select>
-                  </div>
-
-                  <div>
-                    <div class="col-md-12">
-                      <button type="button" class="btn btn-primary my-2" id="createUserButton">Add User</button>
-                    </div>
-                  </div>
-
-                </form>
-              </div>
-  
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -152,8 +88,9 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script type="module">
-    import {sendRequest} from "./fetch.js"
+  <script th:src="@{/fetch.js}"></script>
+  <script>
+    /*import {sendRequest} from "./fetch.js"*/
     $(document).ready(() => {
       sendRequest("GET", "/api/users/" + [[${admin.id}]])
               .then(response => response.json())
@@ -162,46 +99,9 @@
               }).catch(err => console.log(err))
 
       $(document).ready(() => {
-        const createUserBtn = document.getElementById("createUserButton")
 
-        createUserBtn.addEventListener("click", () => {
-          let roles
-          if (document.getElementById("roles").value.includes("1")) {
-            roles = [
-              {
-                id: 1,
-                "name": "ROLE_ADMIN"
-              },
-              {
-                id: 2,
-                name: "ROLE_USER"
-              }
-            ]
-          } else {
-            roles = [
-              {
-                "id": 2,
-                "name": "ROLE_USER"
-              }
-            ]
-          }
-
-
-          sendRequest("POST", "/api/users", JSON.stringify({
-            name: document.getElementById("name").value,
-            lastname: document.getElementById("lastname").value,
-            age: document.getElementById("age").value,
-            username: document.getElementById("username").value,
-            password: document.getElementById("password").value,
-            roles: roles
-
-          })).then(response => {
-            return response.json()
-          }).catch(err => console.log(err))
-        })
       })
     })
   </script>
-
 </body>
 </html>

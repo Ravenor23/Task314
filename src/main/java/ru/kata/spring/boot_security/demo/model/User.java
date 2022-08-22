@@ -38,7 +38,7 @@ public class User implements UserDetails {
     @ManyToMany
     @JoinTable(joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+
     private List<Role> roles;
 
     public Long getId() {
