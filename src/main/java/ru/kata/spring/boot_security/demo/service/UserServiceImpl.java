@@ -10,9 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.RoleDao;
 import ru.kata.spring.boot_security.demo.repository.UserDao;
 
 import java.util.*;
@@ -22,12 +20,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserDao userDao;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    private final RoleDao roleDao;
-
     @Autowired
-    public UserServiceImpl(UserDao userDao, RoleDao roleDao) {
+    public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
-        this.roleDao = roleDao;
     }
 
     @Override
@@ -43,7 +38,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User saveUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-
         return userDao.save(user);
     }
 
@@ -54,11 +48,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         updatedUser.setLastname(user.getLastname());
         updatedUser.setAge(user.getAge());
         updatedUser.setUsername(user.getUsername());
-        updatedUser.setPassword(encoder.encode(user.getPassword()));
+        if (!(user.getPassword().startsWith("$2"))) {
+            updatedUser.setPassword(encoder.encode(user.getPassword()));
+        } else {
+            updatedUser.setPassword(user.getPassword());
+        }
         updatedUser.setRoles(user.getRoles());
         return userDao.save(updatedUser);
     }
-
 
     @Override
     public String deleteById(Long id) {

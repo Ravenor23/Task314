@@ -78,6 +78,13 @@ function saveUser() {
         ]
     }
 
+    const newUserForm = document.getElementById("newUserForm")
+    Array.from(newUserForm).forEach(element => {
+        if (element === "") {
+            event.preventDefault()
+        }
+    })
+
 
     sendRequest("POST", "/api/users", JSON.stringify({
         name: document.getElementById("name").value,
@@ -155,6 +162,17 @@ function fillAdminUserInformationPage(admin) {
 
     const adminRoles = adminPageRow.insertCell(5)
     adminRoles.innerHTML = admin.rolesToString
+}
+
+function validateForm(event) {
+    console.log("submit")
+    const newUserForm = document.getElementById("newUserForm")
+    Array.from(newUserForm).forEach(element => {
+        if (element.value === "") {
+            console.log("empty String")
+            event.preventDefault()
+        }
+    })
 }
 
 

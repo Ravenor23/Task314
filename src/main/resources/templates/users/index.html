@@ -242,38 +242,38 @@
                 <div class="container-fluid bg-white border d-flex align-items-center text-center justify-content-center">
                   <div class="row">
                     <div class="col-md-12">
-                      <form>
+                      <form id="newUserForm">
                         <div class="form-group col-md-12">
                           <div class="p-2 bd-highlight">
                             <label class="font-weight-bold custom-font mt-2" for="name">Enter name: </label>
-                            <input type="text" class="form-control" id="name"/>
+                            <input type="text" class="form-control" id="name" required aria-required="true"/>
                           </div>
                         </div>
 
                         <div class="form-group col-md-12">
                           <div class="p-2 bd-highlight">
                             <label class="font-weight-bold custom-font" for="lastname">Enter lastname: </label>
-                            <input type="text" class="form-control" id="lastname"/>
+                            <input type="text" class="form-control" id="lastname" required aria-required="true"/>
                           </div>
                         </div>
 
                         <div class="form-group col-md-12">
                           <div class="p-2 bd-highlight">
                             <label class="font-weight-bold custom-font" for="age">Enter age: </label>
-                            <input type="number" class="form-control" id="age"/>
+                            <input type="number" class="form-control" id="age" required aria-required="true"/>
                           </div>
                         </div>
 
                         <div class="form-group col-md-12">
                           <div class="p-2 bd-highlight"></div>
                           <label class="font-weight-bold custom-font" for="username">Enter username: </label>
-                          <input type="text" class="form-control" id="username"/>
+                          <input type="text" class="form-control" id="username" required aria-required="true"/>
                         </div>
 
                         <div class="form-group col-md-12">
                           <div class="p-2 bd-highlight"></div>
                           <label class="font-weight-bold custom-font" for="password">Enter password: </label>
-                          <input type="text" class="form-control" id="password"/>
+                          <input type="text" class="form-control" id="password" required aria-required="true"/>
                         </div>
 
                         <div class="form-group col-md-12">
@@ -287,7 +287,7 @@
 
                         <div>
                           <div class="col-md-12">
-                            <button type="button" class="btn btn-primary my-2" id="createUserButton">Add User</button>
+                            <input type="submit" class="btn btn-primary my-2" id="createUserButton" value="Add User"/>
                           </div>
                         </div>
 
@@ -418,6 +418,8 @@
        //saveUserScript
        const createUserBtn = document.getElementById("createUserButton")
        createUserBtn.addEventListener("click", saveUser)
+
+       //form validation
      })
    </script>
 </body>
