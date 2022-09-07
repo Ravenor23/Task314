@@ -1,3 +1,5 @@
+const usersTable = document.getElementById("table")
+
 function sendRequest(method, url, body = null) {
     const header = {
         "Content-Type": "application/json",
@@ -78,14 +80,6 @@ function saveUser() {
         ]
     }
 
-    const newUserForm = document.getElementById("newUserForm")
-    Array.from(newUserForm).forEach(element => {
-        if (element === "") {
-            event.preventDefault()
-        }
-    })
-
-
     sendRequest("POST", "/api/users", JSON.stringify({
         name: document.getElementById("name").value,
         lastname: document.getElementById("lastname").value,
@@ -93,15 +87,19 @@ function saveUser() {
         username: document.getElementById("username").value,
         password: document.getElementById("password").value,
         roles: roles
-
     })).then(response => {
-        return response.json()
+        updateTable()
+        return response
     }).catch(err => console.log(err))
+
 }
 
 function deleteUser() {
     sendRequest("DELETE", "/api/users/" + document.getElementById("id_deleteModal").value)
-        .then(response => console.log(response))
+        .then(response => {
+            updateTable()
+            return response
+        })
         .catch(err => console.log(err))
 }
 
@@ -136,8 +134,10 @@ function updateUser() {
         username: document.getElementById("username_editModal").value,
         password: document.getElementById("password_editModal").value,
         roles: roles
-    }))
-        .then(response => response.json())
+    })).then(response => {
+            updateTable()
+            return response
+        })
         .catch(err => console.log(err))
 }
 
@@ -164,16 +164,67 @@ function fillAdminUserInformationPage(admin) {
     adminRoles.innerHTML = admin.rolesToString
 }
 
-function validateForm(event) {
-    console.log("submit")
-    const newUserForm = document.getElementById("newUserForm")
-    Array.from(newUserForm).forEach(element => {
-        if (element.value === "") {
-            console.log("empty String")
-            event.preventDefault()
+function fillRows(user) {
+    const row = usersTable.insertRow()
+    const id = row.insertCell(0)
+    id.innerHTML = user.id
+
+    const name = row.insertCell(1)
+    name.innerHTML = user.name
+
+    const lastname = row.insertCell(2)
+    lastname.innerHTML = user.lastname
+
+    const age = row.insertCell(3)
+    age.innerHTML = user.age
+
+    const username = row.insertCell(4)
+    username.innerHTML = user.username
+
+    const roles = row.insertCell(5)
+    roles.innerHTML = user.rolesToString
+
+    const deleteModalButton = row.insertCell(6)
+    deleteModalButton.innerHTML = "<button type='button' class='btn btn-danger' data-toggle='modal'>Delete</button>"
+
+    //скрипт для кнопки удаления
+    deleteModalButton.addEventListener("click", () => {
+        $("#deleteModal").modal()
+        populateModal(user, true)
+        console.log(user.rolesToString)
+
+        if (!(user.rolesToString.includes("ADMIN"))) {
+            const adminOption = document.getElementById("adminOption")
+            adminOption.style.display = "none"
+        } else {
+            adminOption.style.display = "block"
         }
-    })
+    }, false)
+
+
+    //скрипт для кнопки редактирования
+    const editModalButton = row.insertCell(7)
+    editModalButton.innerHTML = "<button type='button' class='btn btn-secondary' data-toggle='modal'>Edit</button>"
+
+    editModalButton.addEventListener("click", () => {
+        $("#editModal").modal()
+        populateModal(user, false)
+    }, false)
 }
+
+function updateTable() {
+    sendRequest("GET", "/api/users")
+        .then(response => response.json())
+        .then(response => {
+
+            usersTable.innerHTML = null
+            //заполнение таблицы
+            response.forEach(user => {
+                fillRows(user)
+            })
+        }).catch(err => console.log(err))
+}
+
 
 
 
