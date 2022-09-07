@@ -14,5 +14,16 @@ $(document).ready(() => {
 
     updateTable()
 
+    const editForm = document.getElementById("edit_form")
+    editForm.addEventListener("submit", e => {
+        e.preventDefault()
+        updateUser()
+    })
+
+    const createUserForm = document.getElementById("newUserForm")
+    createUserForm.addEventListener("submit", e => {
+        e.preventDefault()
+        saveUser()
+    })
 })
 

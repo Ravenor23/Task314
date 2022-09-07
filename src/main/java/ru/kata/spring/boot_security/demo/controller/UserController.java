@@ -16,7 +16,6 @@ import java.util.List;
 @Controller
 public class UserController {
     private final UserService userService;
-    private User admin;
 
     @Autowired
     public UserController(UserService userService) {
@@ -45,7 +44,7 @@ public class UserController {
     @GetMapping("/admin")
     public String findAll(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        admin = userService.findByUsername(auth.getName());
+        User admin = userService.findByUsername(auth.getName());
 
         List<User> users = userService.findAll();
 

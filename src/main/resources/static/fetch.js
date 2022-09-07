@@ -4,7 +4,7 @@ function sendRequest(method, url, body = null) {
     const header = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        "Allow": "GET, DELETE, PUT"
+        "Allow": "GET, DELETE, PUT, POST"
     }
 
     return fetch(url, {

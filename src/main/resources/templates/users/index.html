@@ -182,7 +182,7 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                            <form id="edit_form" onsubmit="updateUser()">
+                            <form id="edit_form">
                               <div class="form-group text-center">
                                 <label class="font-weight-bold" for="id_editModal">ID</label>
                                 <input type="text" name="id" class="form-control" id="id_editModal" readonly/>
@@ -223,7 +223,7 @@
 
                               <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Edit</button>
+                                <button type="submit" class="btn btn-primary" id="updateUserBtn">Edit</button>
                               </div>
                             </form>
 
@@ -253,7 +253,7 @@
                 <div class="container-fluid bg-white border d-flex align-items-center text-center justify-content-center">
                   <div class="row">
                     <div class="col-md-12">
-                      <form id="newUserForm" onsubmit="saveUser()">
+                      <form id="newUserForm">
                         <div class="form-group col-md-12">
                           <div class="p-2 bd-highlight">
                             <label class="font-weight-bold custom-font mt-2" for="name">Enter name: </label>

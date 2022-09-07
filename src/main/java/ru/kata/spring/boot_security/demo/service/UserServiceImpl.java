@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserDao;
 
@@ -58,9 +59,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public String deleteById(Long id) {
+    public void deleteById(Long id) {
         userDao.deleteById(id);
-        return String.valueOf(id);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
-        String[] userRoles = user.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
+        String[] userRoles = user.getRoles().stream().map(Role::getName).toArray(String[]::new);
         return AuthorityUtils.createAuthorityList(userRoles);
     }
 
